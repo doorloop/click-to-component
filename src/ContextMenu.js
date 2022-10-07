@@ -351,7 +351,7 @@ export const ContextMenu = React.forwardRef(
                         ${Object.entries(props).map(
                           ([prop, value]) => html`
                             ${' '}
-                            <var key=${prop} title="${value}">${prop}</var>
+                            <var key=${prop} title="${value.toString()}">${prop}</var>
                           `
                         )}
                         ${'>'}

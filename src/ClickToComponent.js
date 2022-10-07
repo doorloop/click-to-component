@@ -20,7 +20,7 @@ export const State = /** @type {const} */ ({
 /**
  * @param {Props} props
  */
-export function ClickToComponent({ editor = 'vscode' }) {
+export function ClickToComponent({ editor = 'intellij' }) {
   const [state, setState] = React.useState(
     /** @type {State[keyof State]} */
     (State.IDLE)
@@ -149,6 +149,19 @@ export function ClickToComponent({ editor = 'vscode' }) {
     [state]
   )
 
+  const onBlur = React.useCallback(
+    function handleBlur() {
+      switch (state) {
+        case State.HOVER:
+          setState(State.IDLE)
+          break
+
+        default:
+      }
+    },
+    [state]
+  )
+
   React.useEffect(
     function toggleIndicator() {
       for (const element of Array.from(
@@ -188,9 +201,10 @@ export function ClickToComponent({ editor = 'vscode' }) {
         window.removeEventListener('keydown', onKeyDown)
         window.removeEventListener('keyup', onKeyUp)
         window.removeEventListener('mousemove', onMouseMove)
+        window.removeEventListener('blur', onBlur)
       }
     },
-    [onClick, onContextMenu, onKeyDown, onKeyUp, onMouseMove]
+    [onClick, onContextMenu, onKeyDown, onKeyUp, onMouseMove, onBlur]
   )
 
   return html`
